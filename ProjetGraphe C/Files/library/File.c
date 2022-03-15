@@ -110,6 +110,7 @@ int defiler(File *file)
 
         nombreDefile = elementDefile->nombre;
         file->firstElement = elementDefile->suivant;
+        elementDefile->suivant=NULL;
         free(elementDefile);
     }
 
@@ -157,25 +158,6 @@ int numberOfLines(FILE *file)
     return compt;
 }
 
-File *renderData(int *numbers)
-{
-    FILE *fileOfData = fopen("./test.txt", "r");
-
-    File *file = malloc(sizeof(*file));
-    Element *element = malloc(sizeof(*element));
-    file = initialisation();
-
-    for (int j = 0; j < numberOfLines(fileOfData); j++)
-    {
-
-        for (int i = 0; numbers[i] != '\0'; i++)
-        {
-            enfiler(file, numbers[i]);
-        }
-    }
-
-    return file;
-}
 
 File *tab = NULL;
 

@@ -24,7 +24,6 @@ void enfiler(File *file, int numberToAdd);
 int defiler(File *file);
 void afficherFile(File *File);
 void freeFile(File *list);
-File *renderData(int *numbers);
 void freeElement(Element *el);
 
 

@@ -34,7 +34,6 @@ File **fetchDatas(char *filepath, int *nbrSommets)
             enfiler(tableau_contraintes[i],atoi(token));
             token = strtok(NULL, " ");
         }
-        afficherFile(tableau_contraintes[i]);
         i++;
     }
 
