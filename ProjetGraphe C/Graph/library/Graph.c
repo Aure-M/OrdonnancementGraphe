@@ -5,9 +5,24 @@
 
 void affichage(bool **tab, int len)
 {
-    printf("-----------MATRICE D'ADJACENCE----------\n\n");
+    printf("-----------MATRICE D'ADJACENCE----------\n\n    ");
     for (int i = 0; i < len; i++)
     {
+        printf("%d ",i+1);
+    }
+    printf("\n");
+    for (int i = 0; i < len; i++)
+    {
+        
+        if( (i+1)/10 >= 1 )
+        {
+            printf("%d ",i+1);
+        }
+        else
+        {
+            printf("%d  ",i+1);
+        }
+
         for (int j = 0; j < len; j++)
         {
            if(tab[i][j]==true)
@@ -53,34 +68,31 @@ Graph *initGraph(int nbrSommets, File** tab_Duree_Et_Contraintes)
     printf("Remplissage de la matrice d'adjacence\n");
 
     /*
-        Les éléments restants correspondent pour chaque case à ses prédecesseurs
+        Initialisation de la mattrice d'adjacence
     */
 
     for (int i = 0; i < nbrSommets; i++)
     {
         graph->matriceAdjacence[i] = malloc(nbrSommets * sizeof(bool));
-        tmpNode=defiler(tab_Duree_Et_Contraintes[i]);
         for (int j = 0; j < nbrSommets; j++)
         {
-            if (tmpNode-1 == j)
-            {
-                graph->matriceAdjacence[i][tmpNode - 1] = 1;
-
-                if (tab_Duree_Et_Contraintes[i]->firstElement != NULL)
-                    tmpNode=defiler(tab_Duree_Et_Contraintes[i]);
-            }
-            else
-            {
-                graph->matriceAdjacence[i][j] = 0;
-            }
-            
-            
+            graph->matriceAdjacence[i][j]=0;
         }
-        
     }
+    /*
+        Remplissage de la matrice d'adjacence 
+    */
+    for (int i = 0; i < nbrSommets; i++)
+    {
+        while(tab_Duree_Et_Contraintes[i]->firstElement != NULL)
+        {
+            tmpNode = defiler(tab_Duree_Et_Contraintes[i]);
+            graph->matriceAdjacence[tmpNode-1][i]=1;
+        }
+    }
+
     free(tab_Duree_Et_Contraintes);
     
-    affichage(graph->matriceAdjacence, nbrSommets);
     return graph;
 }
 
@@ -171,34 +183,51 @@ File *detectPointSortie(Graph *graph)
 
 /*---------------------détection de circuit--------------*/
 bool detectionCircuit(Graph *graph){
-    Graph *cpGraph = copie(graph);
-    File *FilePoint = initialisation();
+    Graph *copieGraphe = copie(graph);
+    File *f1=NULL, *f2=NULL;
+    int tmpNode = -1, sommetsRestants = graph->nbrSommets;
 
-    int i,j,k;
-    for(i = 0; i < cpGraph->nbrSommets; i++){
+    f1=detectPointEntree(copieGraphe); f2=detectPointSortie(copieGraphe);
+    
+    while (f1->firstElement != NULL || f2->firstElement != NULL)
+    {
 
-        FilePoint = FileCat(FilePoint,FileCat(detectPointEntree(cpGraph),detectPointSortie(cpGraph)));
 
-        Element *firstPoint = malloc(sizeof(Element));
-        firstPoint = FilePoint->firstElement;
-
-            while (firstPoint != NULL)
+        /* Suppression des sommets présents dans f1 */
+        while (f1->firstElement != NULL)
+        {
+            tmpNode = defiler(f1);
+            for (int i = 0; i < graph->nbrSommets; i++)
             {
-                for (j = 0; j < cpGraph->nbrSommets; j++)
-                {
-                    if(j == (firstPoint->nombre-1)){
-                        for (k = 0; k < cpGraph->nbrSommets; k++)
-                        {
-                            cpGraph->matriceAdjacence[j][k] = 0;
-                            cpGraph->matriceAdjacence[k][j] = 0;
-                            if (j == k)cpGraph->matriceAdjacence[j][k] = 1;
-                    }
-                }
+                copieGraphe->matriceAdjacence[i][tmpNode-1] = 0;
+                copieGraphe->matriceAdjacence[tmpNode-1][i] = 0;
             }
-            firstPoint = firstPoint->suivant;
-    }
-}
-    return (nbElements(FilePoint) < cpGraph->nbrSommets);
+            sommetsRestants--;
+        }
+        
+        /* Suppression des sommets présents dans f1 */
+        while (f2->firstElement != NULL)
+        {
+            tmpNode = defiler(f2);
+            for (int i = 0; i < graph->nbrSommets; i++)
+            {
+                copieGraphe->matriceAdjacence[i][tmpNode-1] = 0;
+                copieGraphe->matriceAdjacence[tmpNode-1][i] = 0;
+            }
+            sommetsRestants--;
+        }
+
+        /* Si il ne reste qu'un seul sommet le graphe ne peut pas être un circuit */
+        if (sommetsRestants <=1)
+            return false;
+
+        f1=detectPointEntree(copieGraphe); f2=detectPointSortie(copieGraphe);
+    } 
+    
+    freeFile(f1);freeFile(f2);
+
+    return true;
+    
 }
 
 /*--------------------liberer graphe-------------------*/

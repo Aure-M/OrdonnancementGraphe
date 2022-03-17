@@ -44,7 +44,7 @@ File *FileCat(File *file1,File *file2){
     return file;
 }
 
-int nbElements(File *file){
+int nombreElements(File *file){
     int nb = 0;
     if (file == NULL)
     {
@@ -135,28 +135,7 @@ void afficherFile(File *File)
     printf("NULL\n");
 }
 
-int numberOfLines(FILE *file)
-{
-    int compt = 0;
-    char c;
 
-    // Check if file exists
-    if (file == NULL)
-    {
-        perror("Fichier non trouvé");
-        return 0;
-    }
-    for (c = getc(file); c != EOF; c = getc(file))
-    {
-        if (c == '\n')
-        {
-            compt++;
-            /* Go to next line */
-        }
-    }
-    fclose(file);
-    return compt;
-}
 
 
 File *tab = NULL;

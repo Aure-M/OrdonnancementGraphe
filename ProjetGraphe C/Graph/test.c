@@ -7,6 +7,9 @@ int main()
     File **tab_Contraintes_Durees = fetchDatas("/home/aurel-m02/Documents/OrdonnancementGraphe/ProjetGraphe C/test.txt", &nbrSommets);
     Graph *g1 = NULL;
     g1 = initGraph(nbrSommets, tab_Contraintes_Durees);
+    affichage(g1->matriceAdjacence, nbrSommets);
+
+    printf("%d\n",detectionCircuit(g1));
 
     if(g1 != NULL)
         free_graph(g1);
