@@ -26,5 +26,4 @@ void afficherFile(File *File);
 void freeFile(File *list);
 void freeElement(Element *el);
 
-
 #endif

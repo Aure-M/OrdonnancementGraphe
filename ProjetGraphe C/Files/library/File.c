@@ -18,7 +18,8 @@ File *initialisation()
     return File;
 }
 
-File *FileCat(File *file1,File *file2){
+File *FileCat(File *file1, File *file2)
+{
     if (file1 == NULL || file2 == NULL)
     {
         perror("Erreur lors de la concatenation\n");
@@ -44,7 +45,8 @@ File *FileCat(File *file1,File *file2){
     return file;
 }
 
-int nombreElements(File *file){
+int nombreElements(File *file)
+{
     int nb = 0;
     if (file == NULL)
     {
@@ -52,16 +54,17 @@ int nombreElements(File *file){
         exit(EXIT_FAILURE);
     }
 
-    if (file->firstElement == NULL) return 0;/* La file est vide */
+    if (file->firstElement == NULL)
+        return 0; /* La file est vide */
 
-        Element *currentElement = malloc(sizeof(Element));
-        currentElement = file->firstElement;
+    Element *currentElement = malloc(sizeof(Element));
+    currentElement = file->firstElement;
     /*  On compte le nombre d'elements*/
-        while (currentElement != NULL)
-        {
-            currentElement = currentElement->suivant;
-            nb++;
-        }
+    while (currentElement != NULL)
+    {
+        currentElement = currentElement->suivant;
+        nb++;
+    }
 
     return nb;
 }
@@ -94,7 +97,6 @@ void enfiler(File *file, int numberToAdd)
     }
 }
 
-
 int defiler(File *file)
 {
     if (file == NULL)
@@ -110,7 +112,7 @@ int defiler(File *file)
 
         nombreDefile = elementDefile->nombre;
         file->firstElement = elementDefile->suivant;
-        elementDefile->suivant=NULL;
+        elementDefile->suivant = NULL;
         free(elementDefile);
     }
 
@@ -121,7 +123,7 @@ void afficherFile(File *File)
 {
     if (File == NULL)
     {
-        perror("Rien à efficher\n");
+        perror("La file est vide\n");
         exit(EXIT_FAILURE);
     }
 
@@ -134,9 +136,6 @@ void afficherFile(File *File)
     }
     printf("NULL\n");
 }
-
-
-
 
 File *tab = NULL;
 

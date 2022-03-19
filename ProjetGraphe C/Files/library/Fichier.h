@@ -1,4 +1,4 @@
-#ifndef FICHIER 
+#ifndef FICHIER
 #define FICHIER
 
 #include <stdio.h>
@@ -8,6 +8,6 @@
 
 #define TAILLE_MAX_FILE_READ 50
 
-File** fetchDatas(char * filepath, int* nbrSommets);
+File **fetchDatas(char *filepath, int *nbrSommets);
 
 #endif // !

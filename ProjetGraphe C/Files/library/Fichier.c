@@ -15,23 +15,22 @@ File **fetchDatas(char *filepath, int *nbrSommets)
     }
 
     int i = 0;
-    tableau_contraintes = (File **) malloc(sizeof(File*));
+    tableau_contraintes = (File **)malloc(sizeof(File *));
     while (fgets(fileLine, TAILLE_MAX_FILE_READ, fichier) != NULL)
     {
         if (i != 0)
         {
-            if(!(tableau_contraintes = (File **) realloc(tableau_contraintes, (i+1)*sizeof(File*))))
+            if (!(tableau_contraintes = (File **)realloc(tableau_contraintes, (i + 1) * sizeof(File *))))
             {
                 perror("Realloc failed on the realloc");
                 exit(EXIT_FAILURE);
             }
-
         }
         tableau_contraintes[i] = initialisation();
         token = strtok(fileLine, " ");
         while (token != NULL)
         {
-            enfiler(tableau_contraintes[i],atoi(token));
+            enfiler(tableau_contraintes[i], atoi(token));
             token = strtok(NULL, " ");
         }
         i++;
