@@ -30,8 +30,8 @@ int *rangsSommets(Graph *graph);
 void affichageRangsSommets(Graph *graph);
 
 int *calendrierAuPlusTot(Graph *graph);
-int *calendrierAuPlusTard(Graph *graph);
-int *marges(Graph *graph);
+int *calendrierAuPlusTard(int dateDerniereTache,Graph *graph);
+int *marges(Graph *graph); 
 
 void free_graph(Graph *graph);
 

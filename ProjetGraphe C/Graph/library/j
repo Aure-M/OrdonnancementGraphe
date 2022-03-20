@@ -34,6 +34,38 @@ void affichageMatAdjacence(bool **tab, int len)
     printf("\n---------------------------------------\n\n");
 }
 
+void affichageMatriceValeurs(Graph *graph)
+{
+    printf("-----------MATRICE DES VALEURS----------\n\n    ");
+    for (int i = 0; i < graph->nbrSommets; i++)
+    {
+        printf("%d ", i + 1);
+    }
+    printf("\n");
+    for (int i = 0; i < graph->nbrSommets; i++)
+    {
+
+        if ((i + 1) / 10 >= 1)
+        {
+            printf("%d ", i + 1);
+        }
+        else
+        {
+            printf("%d  ", i + 1);
+        }
+
+        for (int j = 0; j < graph->nbrSommets; j++)
+        {
+            if (graph->matriceAdjacence[i][j] == true)
+                printf("\033[1;34m %d\033[0m", graph->durees[i]);
+            else
+                printf(" *");
+        }
+        printf("\n");
+    }
+    printf("\n---------------------------------------\n\n");
+}
+
 Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
 {
     Graph *graph = malloc(sizeof(*graph));
@@ -56,15 +88,13 @@ Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
     for (int i = 0; i < nbrSommets; i++)
     {
         index = defiler(tab_Duree_Et_Contraintes[i]);
-        graph->durees[index] = defiler(tab_Duree_Et_Contraintes[i]);
+        graph->durees[index - 1] = defiler(tab_Duree_Et_Contraintes[i]);
     }
 
     graph->matriceAdjacence = malloc(nbrSommets * sizeof(bool *));
 
-    printf("Remplissage de la matrice d'adjacence\n");
-
     /*
-        Initialisation de la mattrice d'adjacence
+        Initialisation de la matrice d'adjacence
     */
 
     for (int i = 0; i < nbrSommets; i++)
@@ -91,17 +121,68 @@ Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
 
     return graph;
 }
+/*----------------------- générer tableau de contraintes ----------------------*/
 
+File **genTableau_Duree_Contraintes(Graph *graph, int *sommet_a_retenir)
+{
+
+    int sommetRetenus = 0;
+    bool estUnsommetIsole;
+
+    File **tab_Durees_Contraintes = (File **)malloc(sizeof(File *));
+    if (tab_Durees_Contraintes == NULL)
+    {
+        perror("Echec de l'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < graph->nbrSommets; i++)
+    {
+        estUnsommetIsole = true;
+        tab_Durees_Contraintes[sommetRetenus] = initialisation();
+
+        for (int j = 0; j < graph->nbrSommets; j++)
+        {
+            if (graph->matriceAdjacence[i][j] == true || graph->matriceAdjacence[j][i] == true)
+            {
+                estUnsommetIsole = false;
+            }
+            if (graph->matriceAdjacence[j][i] == true)
+            {
+                if (tab_Durees_Contraintes[sommetRetenus]->firstElement == NULL)
+                {
+                    enfiler(tab_Durees_Contraintes[sommetRetenus], i + 1);
+                    enfiler(tab_Durees_Contraintes[sommetRetenus], graph->durees[i]);
+                }
+                enfiler(tab_Durees_Contraintes[sommetRetenus - 1], j + 1);
+            }
+        }
+
+        if (estUnsommetIsole == true)
+        {
+            freeFile(tab_Durees_Contraintes[sommetRetenus]);
+        }
+        else
+        {
+            sommetRetenus++;
+            tab_Durees_Contraintes = (File **)realloc(tab_Durees_Contraintes, (sommetRetenus + 1) * sizeof(File *));
+            if (tab_Durees_Contraintes == NULL)
+                printf("Echec de l'allocation\n");
+        }
+    }
+    *sommet_a_retenir = sommetRetenus;
+    return tab_Durees_Contraintes;
+}
 /*-----------------------copie----------------------*/
 
 Graph *copie(Graph *model)
 {
     int nbrSommets = model->nbrSommets;
-    Graph *graph = malloc(sizeof(graph));
+    Graph *graph = malloc(sizeof(Graph));
 
     graph->durees = malloc(nbrSommets * sizeof(int));
 
-    graph->matriceAdjacence = malloc(nbrSommets * sizeof(bool));
+    graph->matriceAdjacence = malloc(nbrSommets * sizeof(bool *));
 
     graph->nbrSommets = model->nbrSommets;
 
@@ -179,7 +260,8 @@ bool detectionCircuit(Graph *graph)
 {
     Graph *copieGraphe = copie(graph);
     File *f1 = NULL, *f2 = NULL;
-    int tmpNode = -1, sommetsRestants = graph->nbrSommets;
+    File **tmp = NULL;
+    int tmpNode = -1, sommets_restants = graph->nbrSommets, sommetsDeTabContraintes = 0;
 
     f1 = detectPointEntree(copieGraphe);
     f2 = detectPointSortie(copieGraphe);
@@ -196,7 +278,7 @@ bool detectionCircuit(Graph *graph)
                 copieGraphe->matriceAdjacence[i][tmpNode - 1] = 0;
                 copieGraphe->matriceAdjacence[tmpNode - 1][i] = 0;
             }
-            sommetsRestants--;
+            sommets_restants--;
         }
 
         /* Suppression des sommets présents dans f1 */
@@ -208,19 +290,23 @@ bool detectionCircuit(Graph *graph)
                 copieGraphe->matriceAdjacence[i][tmpNode - 1] = 0;
                 copieGraphe->matriceAdjacence[tmpNode - 1][i] = 0;
             }
-            sommetsRestants--;
+            sommets_restants--;
         }
 
         /* Si il ne reste qu'un seul sommet le graphe ne peut pas être un circuit */
-        if (sommetsRestants <= 1)
+        if (sommets_restants <= 1)
             return false;
 
+        tmp = genTableau_Duree_Contraintes(copieGraphe, &sommetsDeTabContraintes);
+        free_graph(copieGraphe);
+        copieGraphe = initGraph(sommetsDeTabContraintes, tmp);
         f1 = detectPointEntree(copieGraphe);
         f2 = detectPointSortie(copieGraphe);
     }
 
     freeFile(f1);
     freeFile(f2);
+    free(tmp);
 
     return true;
 }
@@ -239,95 +325,48 @@ bool a_un_arc_negatif(Graph *graph)
     return false;
 }
 
+/*--------------------rangs sommets-------------------*/
+
 int *rangsSommets(Graph *graph)
 {
+
     Graph *copieGraphe = copie(graph);
+    File **tmp = NULL;
     File *f1 = NULL;
-    Element *parcoursF1 = NULL, *parcoursF1_prec = NULL;
-    int tmpNode = -1, rangActuel = 0, sommetsEffaces_len = 0;
-    int *rangs = malloc(graph->nbrSommets * sizeof(int)), *sommetsEffaces = NULL;
-    bool isF1Modified;
-    
+    int tmpNode = -1, rangActuel = 0, sommetsDeTabContraintes = 0;
+    int *rangs = malloc(graph->nbrSommets * sizeof(int));
     f1 = detectPointEntree(copieGraphe);
-    printf("\nF1 = ");
-    afficherFile(f1);
-    //    affichageMatAdjacence(copieGraphe->matriceAdjacence, copieGraphe->nbrSommets);
-    sleep(3);
+    affichageMatAdjacence(copieGraphe->matriceAdjacence, copieGraphe->nbrSommets);
     while (f1->firstElement != NULL)
     {
 
         while (f1->firstElement != NULL)
         {
             tmpNode = defiler(f1);
-            sommetsEffaces = sommetsEffaces == NULL ? malloc(sizeof(int)) : realloc(sommetsEffaces, (sommetsEffaces_len + 1) * sizeof(int));
-            sommetsEffaces_len++;
-
-            sommetsEffaces[sommetsEffaces_len - 1] = tmpNode;
-
             for (int i = 0; i < graph->nbrSommets; i++)
             {
                 copieGraphe->matriceAdjacence[i][tmpNode - 1] = 0;
                 copieGraphe->matriceAdjacence[tmpNode - 1][i] = 0;
             }
+            //affichageMatAdjacence(copieGraphe->matriceAdjacence, copieGraphe->nbrSommets);
             rangs[tmpNode - 1] = rangActuel;
-        }
-
-        f1 = detectPointEntree(copieGraphe);
-
-        printf("\navant épurage F1 = ");
-        afficherFile(f1);
-        /*Epurage je vais en faire une fonction*/
-        parcoursF1 = f1->firstElement;
-        parcoursF1_prec = f1->firstElement;
-
-        printf("\nSommets effacés\n");
-        for (int i = 0; i < sommetsEffaces_len; i++)
-        {
-            printf("%d ", sommetsEffaces[i]);
-        }
-        printf("\n");
-        sleep(2);
-        while (parcoursF1 != NULL)
-        {
-            isF1Modified = false;
-            for (int i = 0; i < sommetsEffaces_len; i++)
-            {
-                if (parcoursF1->nombre == sommetsEffaces[i])
-                {
-                    printf("%d,%d on efface %d\n",sommetsEffaces[i],parcoursF1->nombre,parcoursF1->nombre);
-                    if (parcoursF1 == f1->firstElement)
-                    {
-                        defiler(f1);
-                        parcoursF1 = f1->firstElement;
-                        parcoursF1_prec = f1->firstElement;
-
-                        afficherFile(f1);
-                    }
-                    else
-                    {
-                        parcoursF1_prec->suivant = parcoursF1->suivant;
-                        free(parcoursF1);
-                        parcoursF1 = parcoursF1_prec->suivant;
-                        afficherFile(f1);
-                    }
-                    isF1Modified = true;
-                    break;
-                }
-            }
-            if (!isF1Modified)
-            {
-                parcoursF1_prec = parcoursF1;
-                parcoursF1 = parcoursF1->suivant;
-            }
-            
             sleep(2);
-
-
         }
 
-        printf("\naprès épurage F1 = ");
-        afficherFile(f1);
+        tmp = genTableau_Duree_Contraintes(copieGraphe, &sommetsDeTabContraintes);
+
+        printf("Contraintes \n");
+        for (int i = 0; i < sommetsDeTabContraintes; i++)
+        {
+            afficherFile(tmp[i]);
+        }
+
         sleep(3);
+        free_graph(copieGraphe);
+        copieGraphe = initGraph(sommetsDeTabContraintes, tmp);
+        f1 = detectPointEntree(copieGraphe);
+        printf("\nF1 ");
+        afficherFile(f1);
         rangActuel++;
     }
 
@@ -335,6 +374,7 @@ int *rangsSommets(Graph *graph)
 
     return rangs;
 }
+
 void affichageRangsSommets(Graph *graph)
 {
     int *rangs = rangsSommets(graph);
@@ -371,34 +411,11 @@ int *calendrierAuPlusTot(Graph *graph)
     }
 
     free(calendrier);
-    return calendrier;
+    return NULL;
 }
-int *calendrierAuPlusTard(int dateDerniereTache, Graph *graph)
+int *calendrierAuPlusTard(Graph *graph)
 {
-    int *durees = graph->durees, *calendrier = malloc(graph->nbrSommets * sizeof(int));
-    int tmp = dateDerniereTache, derniere_DateAuPlusTard = dateDerniereTache;
 
-    calendrier[graph->nbrSommets - 1] = dateDerniereTache;
-    for (int i = graph->nbrSommets - 2; i >= 0; i++)
-    {
-        for (int j = 0; j < graph->nbrSommets; j++)
-        {
-            if (graph->matriceAdjacence[j][i] == true)
-            {
-                tmp = tmp > (derniere_DateAuPlusTard - durees[i]) ? (derniere_DateAuPlusTard - durees[i]) : tmp;
-            }
-        }
-
-        calendrier[i] = tmp;
-        derniere_DateAuPlusTard = tmp;
-    }
-
-    for (int i = 0; i < graph->nbrSommets; i++)
-    {
-        printf("%d = %d\n", i + 1, calendrier[i]);
-    }
-
-    free(calendrier);
     return NULL;
 }
 int *marges(Graph *graph)
@@ -406,16 +423,13 @@ int *marges(Graph *graph)
 
     return NULL;
 }
-
 /*--------------------liberer graphe-------------------*/
 void free_graph(Graph *graph)
 {
 
     if (graph->matriceAdjacence != NULL)
-    {
-
         free(graph->matriceAdjacence);
-    }
+
     if (graph->durees != NULL)
         free(graph->durees);
 

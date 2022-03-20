@@ -9,6 +9,7 @@ int main()
 
     g1 = initGraph(nbrSommets, tab_Contraintes_Durees);
 
+
     affichageRangsSommets(g1);    
     if (g1 != NULL)
         free_graph(g1);
