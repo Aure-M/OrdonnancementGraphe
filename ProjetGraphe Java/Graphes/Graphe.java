@@ -24,11 +24,13 @@ public class Graphe {
             for (int i = 0; i < tab.length; i++) {
                 tab[i]=false;
             }
-            for (int constraint : n.getContraintes()) {
-                tab[constraint - 1] = true;
-            }
-
             matriceAdjacence.add(tab);
+        }
+
+        for (Node n : listNode) {
+            for (int constraint : n.getContraintes()) {
+                matriceAdjacence.get(constraint-1)[n.getId()-1] = true;
+            }
         }
     }
     public ArrayList<Node> getListNode() {
@@ -57,9 +59,9 @@ public class Graphe {
             System.out.print(actualNode.getId()+spaces);
             for (int j = 0; j < tmp.length; j++) {
                 if (tmp[j] == false) {
-                    System.out.print("\033[0m"+"X ");   
+                    System.out.print("X ");   
                 } else {
-                    System.out.print("\033[1;31m"+"O ");
+                    System.out.print("\033[1;31m"+"O "+"\033[0m");
                 }
             }
             System.out.print("\n");
