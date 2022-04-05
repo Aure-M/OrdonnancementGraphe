@@ -7,21 +7,21 @@ void affichageMatAdjacence(Graph *graph)
     int len = graph->nbrSommets;
     char space = '\0';
     printf("-----------MATRICE D'ADJACENCE----------\n\n    ");
-    for (int i = 0; i < len+2; i++)
+    for (int i = 0; i < len; i++)
     {
         if (i == 0)
             printf("%s ", ALPHA);
-        else if (i == len+1 )
+        else if (i == len-1 )
             printf("%s ", OMEGA);
         else
             printf("%d ", i );
     }
     printf("\n");
-    for (int i = 0; i < len+2; i++)
+    for (int i = 0; i < len; i++)
     {
         if (i == 0)
             printf("%s  ", ALPHA);
-        else if (i == len+1)
+        else if (i == len-1)
             printf("%s  ", OMEGA);
         else
         {
@@ -34,9 +34,9 @@ void affichageMatAdjacence(Graph *graph)
                 printf("%d  ", i );
             }
         }
-        for (int j = 0; j < len+2; j++)
+        for (int j = 0; j < len; j++)
         {
-            space = j/10 < 1 || j == len+1 ? '\0' : ' ';
+            space = j/10 < 1 || j == len-1 ? '\0' : ' ';
             if (graph->matriceAdjacence[i][j] == true)
                 printf("\033[1;31m %cO\033[0m", space);
             else
@@ -52,21 +52,21 @@ void affichageMatriceValeurs(Graph *graph)
     int len = graph->nbrSommets,duree;
     char space = '\0';
     printf("-----------MATRICE DES VALEURS----------\n\n    ");
-    for (int i = 0; i < len+2; i++)
+    for (int i = 0; i < len; i++)
     {
         if (i == 0)
             printf("%s ", ALPHA);
-        else if (i == len+1 )
+        else if (i == len-1 )
             printf("%s ", OMEGA);
         else
             printf("%d ", i );
     }
     printf("\n");
-    for (int i = 0; i < len+2; i++)
+    for (int i = 0; i < len; i++)
     {
         if (i == 0)
             printf("%s  ", ALPHA);
-        else if (i == len+1)
+        else if (i == len-1)
             printf("%s  ", OMEGA);
         else
         {
@@ -79,12 +79,12 @@ void affichageMatriceValeurs(Graph *graph)
                 printf("%d  ", i );
             }
         }
-        for (int j = 0; j < len+2; j++)
+        for (int j = 0; j < len; j++)
         {
-            space = j/10 < 1 || j == len+1 ? '\0' : ' ';
+            space = j/10 < 1 || j == len-1 ? '\0' : ' ';
             if (graph->matriceAdjacence[i][j] == true)
             {
-                duree = (j == len+1) ? 0 : graph->durees[j-1];
+                duree = graph->durees[j];
                 printf("\033[1;34m %c%d\033[0m", space, duree);
             }
             else

@@ -7,14 +7,14 @@ int *rangsSommets(Graph *graph)
     File *f1 = NULL;
     Element *parcoursF1 = NULL, *parcoursF1_prec = NULL;
     int tmpNode = -1, rangActuel = 1, sommetsEffaces_len = 0;
-    int *rangs = malloc(graph->nbrSommets * sizeof(int)), *sommetsEffaces = NULL;
+    int *rangs = malloc((graph->nbrSommets+2) * sizeof(int)), *sommetsEffaces = NULL;
     bool isF1Modified;
     /*Initialisation du tableau de rangs */
-    for (int i = 0; i < graph->nbrSommets; i++)
+    for (int i = 0; i < graph->nbrSommets+2; i++)
     {
         rangs[i] = 0;
     }
-
+    
     f1 = detectPointEntree(copieGraphe);
     printf("--- Points d'entrées\n");
     afficherFile(f1);
@@ -28,25 +28,24 @@ int *rangsSommets(Graph *graph)
 
             sommetsEffaces[sommetsEffaces_len - 1] = tmpNode;
 
-            for (int i = 0; i < graph->nbrSommets; i++)
+            for (int i = 0; i < graph->nbrSommets+2; i++)
             {
-                copieGraphe->matriceAdjacence[i][tmpNode - 1] = 0;
-                copieGraphe->matriceAdjacence[tmpNode - 1][i] = 0;
+                copieGraphe->matriceAdjacence[i][tmpNode] = 0;
+                copieGraphe->matriceAdjacence[tmpNode][i] = 0;
             }
 
-            rangs[tmpNode - 1] = rangActuel;
+            rangs[tmpNode] = rangActuel;
 
-            printf("On a retire %d\n", tmpNode);
+            /* printf("On a retire %d\n", tmpNode); */
         }
         printf("------ Itération %d-----\n", rangActuel);
         printf("Rang actuel %d\n", rangActuel);
-        for (int i = 0; i < graph->nbrSommets; i++)
+        for (int i = 0; i < graph->nbrSommets+2; i++)
         {
-            printf("%d(%d)  ", i + 1, rangs[i]);
+            printf("%d(%d)  ", i , rangs[i]);
         }
         printf("\n");
         printf("--------------------------------\n");
-        sleep(7);
 
         f1 = detectPointEntree(copieGraphe);
 
@@ -96,9 +95,9 @@ void affichageRangsSommets(Graph *graph)
 {
     int *rangs = rangsSommets(graph);
     printf("------ Rangs des sommets FINAL-----\n");
-    for (int i = 0; i < graph->nbrSommets; i++)
+    for (int i = 0; i < graph->nbrSommets+2; i++)
     {
-        printf("%d(%d)  ", i + 1, rangs[i]);
+        printf("%d(%d)  ", i, rangs[i]);
     }
     printf("\n");
 

@@ -57,8 +57,7 @@ int nombreElements(File *file)
     if (file->firstElement == NULL)
         return 0; /* La file est vide */
 
-    Element *currentElement = malloc(sizeof(Element));
-    currentElement = file->firstElement;
+    Element *currentElement = file->firstElement;
     /*  On compte le nombre d'elements*/
     while (currentElement != NULL)
     {

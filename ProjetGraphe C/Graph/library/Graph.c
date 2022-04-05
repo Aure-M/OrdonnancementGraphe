@@ -6,14 +6,21 @@
 void remplirTabDurees(Graph *graph, File **tab_Duree_Et_Contraintes)
 {
     int tache, duree;
-
     graph->durees = malloc((graph->nbrSommets) * sizeof(int));
     for (int i = 0; i < graph->nbrSommets; i++)
     {
-        tache = defiler(tab_Duree_Et_Contraintes[i]);
-        duree = defiler(tab_Duree_Et_Contraintes[i]);
+        if (i == 0 || i == graph->nbrSommets - 1)
+        {
+            graph->durees[i] = 0;
+        }
+        else
+        {
 
-        graph->durees[tache - 1] = duree;
+            tache = defiler(tab_Duree_Et_Contraintes[i - 1]);
+            duree = defiler(tab_Duree_Et_Contraintes[i - 1]);
+
+            graph->durees[tache] = duree;
+        }
     }
 }
 
@@ -23,30 +30,31 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
     int tache;
     bool isSelected;
 
-    graph->matriceAdjacence = malloc((graph->nbrSommets + 2) * sizeof(bool *));
+    graph->matriceAdjacence = malloc((graph->nbrSommets) * sizeof(bool *));
 
-    for (int i = 0; i < graph->nbrSommets + 2; i++)
+    for (int i = 0; i < graph->nbrSommets; i++)
     {
-        graph->matriceAdjacence[i] = malloc((graph->nbrSommets + 2) * sizeof(bool));
-        for (int j = 0; j < graph->nbrSommets + 2; j++)
+        graph->matriceAdjacence[i] = malloc((graph->nbrSommets) * sizeof(bool));
+        for (int j = 0; j < graph->nbrSommets; j++)
         {
             graph->matriceAdjacence[i][j] = 0;
         }
     }
 
-    for (int i = 1; i < graph->nbrSommets + 1; i++)
+    for (int i = 1; i < graph->nbrSommets - 1; i++)
     {
+
         while (tab_Duree_Et_Contraintes[i - 1]->firstElement != NULL)
         {
             tache = defiler(tab_Duree_Et_Contraintes[i - 1]);
-            graph->matriceAdjacence[tache - 1][i] = 1;
+            graph->matriceAdjacence[tache][i] = 1;
         }
     }
 
-    for (int i = 1; i < graph->nbrSommets + 1; i++)
+    for (int i = 1; i < graph->nbrSommets - 1; i++)
     {
         isSelected = true;
-        for (int j = 1; j < graph->nbrSommets + 1; j++)
+        for (int j = 1; j < graph->nbrSommets - 1; j++)
         {
             if (graph->matriceAdjacence[j][i] == 1)
             {
@@ -60,10 +68,10 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
         }
     }
 
-    for (int i = 1; i < graph->nbrSommets + 1; i++)
+    for (int i = 1; i < graph->nbrSommets - 1; i++)
     {
         isSelected = true;
-        for (int j = 1; j < graph->nbrSommets + 1; j++)
+        for (int j = 1; j < graph->nbrSommets - 1; j++)
         {
             if (graph->matriceAdjacence[i][j] == 1)
             {
@@ -73,7 +81,7 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
         }
         if (isSelected)
         {
-            graph->matriceAdjacence[i][graph->nbrSommets+1] = true;
+            graph->matriceAdjacence[i][graph->nbrSommets - 1] = true;
         }
     }
 }
@@ -89,15 +97,12 @@ Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
         perror("Erreur pendant la création du graphe");
         exit(EXIT_FAILURE);
     }
-    graph->nbrSommets = nbrSommets;
-    printf("\n");
+    graph->nbrSommets = nbrSommets + 2;
+
     remplirTabDurees(graph, tab_Duree_Et_Contraintes);
+
     remplirMatAdjacence(graph, tab_Duree_Et_Contraintes);
-    for (int i = 0; i < graph->nbrSommets; i++)
-    {
-        printf("%d[%d] ", i + 1, graph->durees[i]);
-    }
-    printf("\n");
+
     free(tab_Duree_Et_Contraintes);
 
     return graph;
@@ -123,10 +128,10 @@ Graph *copie(Graph *model)
     }
 
     /* Copie de la matrice d'adjacence */
-    for (int i = 0; i < nbrSommets; i++)
+    for (int i = 0; i < nbrSommets + 2; i++)
     {
         graph->matriceAdjacence[i] = malloc(nbrSommets * sizeof(bool));
-        for (int j = 0; j < nbrSommets; j++)
+        for (int j = 0; j < nbrSommets + 2; j++)
         {
             graph->matriceAdjacence[i][j] = model->matriceAdjacence[i][j];
         }
