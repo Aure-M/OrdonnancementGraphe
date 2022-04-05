@@ -4,7 +4,7 @@
 int main(int argc, char const *argv[])
 {
     int nbrSommets =0;
-    File **tableauContraintes = fetchDatas("/home/aurel-m02/Documents/OrdonnancementGraphe/ProjetGraphe C/test.txt",&nbrSommets);
+    File **tableauContraintes = fetchDatas("/home/aurel-m02/Documents/OrdonnancementGraphe/Tests/table 1.txt",&nbrSommets);
     printf("%d\n",nbrSommets);
 
     for (int i = 0; i < nbrSommets; i++)

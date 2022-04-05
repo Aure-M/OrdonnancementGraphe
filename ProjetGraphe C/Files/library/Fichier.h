@@ -1,5 +1,3 @@
-#ifndef FICHIER
-#define FICHIER
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,4 +8,3 @@
 
 File **fetchDatas(char *filepath, int *nbrSommets);
 
-#endif // !

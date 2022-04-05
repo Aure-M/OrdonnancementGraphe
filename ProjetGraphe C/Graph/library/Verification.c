@@ -6,23 +6,24 @@ File *detectPointEntree(Graph *graph)
 {
     File *result = initialisation();
     bool isAnEntryPoint = true;
-    int i = 0, j = 0;
-    for (i = 0; i < graph->nbrSommets; i++)
+    for (int i = 0; i < graph->nbrSommets; i++)
     {
+        
         isAnEntryPoint = true;
-        for (j = 0; j < graph->nbrSommets; j++)
+        for (int j = 0; j < graph->nbrSommets; j++)
         {
             if (graph->matriceAdjacence[j][i] == 1)
             {
                 isAnEntryPoint = false;
                 break;
-            }
+            }            
         }
         if (isAnEntryPoint)
         {
             enfiler(result, i + 1);
         }
     }
+
     return result;
 }
 
@@ -30,11 +31,10 @@ File *detectPointSortie(Graph *graph)
 {
     File *result = initialisation();
     bool isAnEndPoint = true;
-    int i = 0, j = 0;
-    for (i = 0; i < graph->nbrSommets; i++)
+    for (int i = 0; i < graph->nbrSommets; i++)
     {
         isAnEndPoint = true;
-        for (j = 0; j < graph->nbrSommets; j++)
+        for (int j = 0; j < graph->nbrSommets; j++)
         {
             if (graph->matriceAdjacence[i][j] == 1)
             {
@@ -98,7 +98,7 @@ bool detectionCircuit(Graph *graph)
 
     freeFile(f1);
     freeFile(f2);
-
+    printf("Un circuit a été détecté\n");
     return true;
 }
 
@@ -112,6 +112,11 @@ bool a_un_arc_negatif(Graph *graph)
             return true;
         }
     }
-    printf("Ce graphe n'a pas d'arc négatif ^^ \n");
     return false;
+}
+
+
+bool verificationSurGraphe(Graph* graph)
+{
+    return a_un_arc_negatif(graph) & detectionCircuit(graph);
 }

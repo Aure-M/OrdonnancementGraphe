@@ -1,6 +1,5 @@
 #include "Graph.h"
 
-
 int *calendrierAuPlusTot(Graph *graph)
 {
     int *durees = graph->durees, *calendrier = malloc(graph->nbrSommets * sizeof(int));
@@ -16,17 +15,23 @@ int *calendrierAuPlusTot(Graph *graph)
                 tmp = (calendrier[j] + durees[j]) > tmp ? (calendrier[j] + durees[j]) : tmp;
             }
         }
-
         calendrier[i] = tmp;
     }
 
+    printf("------------CALENDRIER AU PLUS TOT--------------\n");
+
     for (int i = 0; i < graph->nbrSommets; i++)
     {
-        printf("%d = %d\n", i + 1, calendrier[i]);
+        printf("%d(%d) ", i + 1, calendrier[i]);
     }
+
+    printf("\n-----------------------------------------------\n");
 
     return calendrier;
 }
+
+
+
 
 int *calendrierAuPlusTard(int dateDerniereTache, Graph *graph)
 {
@@ -47,11 +52,14 @@ int *calendrierAuPlusTard(int dateDerniereTache, Graph *graph)
         calendrier[i] = tmp;
     }
 
+    printf("------------CALENDRIER AU PLUS TARD--------------\n");
+
     for (int i = 0; i < graph->nbrSommets; i++)
     {
-        printf("%d = %d\n", i + 1, calendrier[i]);
+        printf("%d(%d) ", i + 1, calendrier[i]);
     }
 
+    printf("\n-----------------------------------------------\n");
     return calendrier;
 }
 
@@ -68,10 +76,10 @@ int *marges(Graph *graph, int *calendrierTard, int *calendrierTot)
 
     for (int i = 0; i < graph->nbrSommets; i++)
     {
-        printf("%d == %d\n", i + 1, result[i]);
+        printf("%d(%d) ", i + 1, result[i]);
     }
-    
-    printf("-----------------------------------------------------\n");
+
+    printf("\n-----------------------------------------------------\n");
 
     return result;
 }

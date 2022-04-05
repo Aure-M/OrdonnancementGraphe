@@ -1,22 +1,25 @@
 #include "Graph.h"
 #include "Verification.c"
 
-
-
 int *rangsSommets(Graph *graph)
 {
     Graph *copieGraphe = copie(graph);
     File *f1 = NULL;
     Element *parcoursF1 = NULL, *parcoursF1_prec = NULL;
-    int tmpNode = -1, rangActuel = 0, sommetsEffaces_len = 0;
+    int tmpNode = -1, rangActuel = 1, sommetsEffaces_len = 0;
     int *rangs = malloc(graph->nbrSommets * sizeof(int)), *sommetsEffaces = NULL;
     bool isF1Modified;
+    /*Initialisation du tableau de rangs */
+    for (int i = 0; i < graph->nbrSommets; i++)
+    {
+        rangs[i] = 0;
+    }
 
     f1 = detectPointEntree(copieGraphe);
-
+    printf("--- Points d'entrées\n");
+    afficherFile(f1);
     while (f1->firstElement != NULL)
     {
-
         while (f1->firstElement != NULL)
         {
             tmpNode = defiler(f1);
@@ -30,8 +33,20 @@ int *rangsSommets(Graph *graph)
                 copieGraphe->matriceAdjacence[i][tmpNode - 1] = 0;
                 copieGraphe->matriceAdjacence[tmpNode - 1][i] = 0;
             }
+
             rangs[tmpNode - 1] = rangActuel;
+
+            printf("On a retire %d\n", tmpNode);
         }
+        printf("------ Itération %d-----\n", rangActuel);
+        printf("Rang actuel %d\n", rangActuel);
+        for (int i = 0; i < graph->nbrSommets; i++)
+        {
+            printf("%d(%d)  ", i + 1, rangs[i]);
+        }
+        printf("\n");
+        printf("--------------------------------\n");
+        sleep(7);
 
         f1 = detectPointEntree(copieGraphe);
 
@@ -68,7 +83,8 @@ int *rangsSommets(Graph *graph)
                 parcoursF1 = parcoursF1->suivant;
             }
         }
-
+        printf("---- Mise à jour des points d'entrées\n");
+        afficherFile(f1);
         rangActuel++;
     }
 
@@ -79,10 +95,12 @@ int *rangsSommets(Graph *graph)
 void affichageRangsSommets(Graph *graph)
 {
     int *rangs = rangsSommets(graph);
-    printf("------ Rangs des sommets -----\n");
+    printf("------ Rangs des sommets FINAL-----\n");
     for (int i = 0; i < graph->nbrSommets; i++)
     {
-        printf("%d -> %d\n", i + 1, rangs[i]);
+        printf("%d(%d)  ", i + 1, rangs[i]);
     }
+    printf("\n");
+
     printf("----------------------------\n");
 }
