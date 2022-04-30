@@ -1,0 +1,2 @@
+main: ./main.c ./Graph/library/Graph.c ./Graph/library/Affichage.c ./Graph/library/Calendrier.c ./Graph/library/Verification.c ./Graph/library/Rangs.c ./Files/library/Fichier.c ./Files/library/File.c
+	gcc -o main ./main.c ./Graph/library/Graph.c  ./Files/library/Fichier.c ./Files/library/File.c

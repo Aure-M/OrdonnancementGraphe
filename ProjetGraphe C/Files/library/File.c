@@ -18,54 +18,21 @@ File *initialisation()
     return File;
 }
 
-File *FileCat(File *file1, File *file2)
+
+bool search(File *list,int a)
 {
-    if (file1 == NULL || file2 == NULL)
+    Element *tmp = list->firstElement;
+    while (tmp != NULL)
     {
-        perror("Erreur lors de la concatenation\n");
-        exit(EXIT_FAILURE);
-    }
-    File *file = initialisation();
-    file->firstElement = file1->firstElement;
-    if (file->firstElement != NULL) /* La file n'est pas vide */
-    {
-        Element *currentElement = malloc(sizeof(Element));
-        currentElement = file->firstElement;
-        /* On se positionne à la fin de la file */
-        while (currentElement->suivant != NULL)
+        if (tmp->nombre == a)
         {
-            currentElement = currentElement->suivant;
+            return true;
         }
-        currentElement->suivant = file2->firstElement;
-    }
-    else /* La file est vide, notre élément est le firstElement */
-    {
-        file->firstElement = file2->firstElement;
-    }
-    return file;
-}
-
-int nombreElements(File *file)
-{
-    int nb = 0;
-    if (file == NULL)
-    {
-        perror("Erreur lors de l'operation\n");
-        exit(EXIT_FAILURE);
+        
+        tmp = tmp->suivant;
     }
 
-    if (file->firstElement == NULL)
-        return 0; /* La file est vide */
-
-    Element *currentElement = file->firstElement;
-    /*  On compte le nombre d'elements*/
-    while (currentElement != NULL)
-    {
-        currentElement = currentElement->suivant;
-        nb++;
-    }
-
-    return nb;
+    return false;
 }
 
 void enfiler(File *file, int numberToAdd)
@@ -122,8 +89,8 @@ void afficherFile(File *File)
 {
     if (File == NULL)
     {
-        perror("La file est vide\n");
-        exit(EXIT_FAILURE);
+        printf("La file est vide\n");
+        return;
     }
 
     Element *actuel = File->firstElement;

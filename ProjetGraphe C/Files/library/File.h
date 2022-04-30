@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
 
 typedef struct Element Element;
 struct Element
@@ -18,8 +20,7 @@ struct File
 };
 
 File *initialisation();
-File *FileCat(File *file1, File *file2);
-int nbElements(File *file);
+bool search(File *list,int a);
 void enfiler(File *file, int numberToAdd);
 int defiler(File *file);
 void afficherFile(File *File);

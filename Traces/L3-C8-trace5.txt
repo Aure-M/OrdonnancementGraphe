@@ -1,0 +1,364 @@
+* Création du graphe d’ordonnancement:
+        13 sommets
+        1 -> 3
+        2 -> 4
+        3 -> 4
+        4 -> 5
+        5 -> 6
+        6 -> 7
+        7 -> 8
+        8 -> 9
+        11 -> 10
+        4 -> 11
+        3 -> 12
+        6 -> 13
+        12 -> 13
+        Α -> 1
+        Α -> 2
+        9 -> Ψ
+        10 -> Ψ
+        13 -> Ψ
+        18 arcs
+
+* Fin de création du graphe d’ordonnancement:
+-----------MATRICE D'ADJACENCE----------
+
+    Α 1 2 3 4 5 6 7 8 9 10 11 12 13 Ψ 
+Α   * O O * * * * * * *  *  *  *  * *
+1   * * * O * * * * * *  *  *  *  * *
+2   * * * * O * * * * *  *  *  *  * *
+3   * * * * O * * * * *  *  *  O  * *
+4   * * * * * O * * * *  *  O  *  * *
+5   * * * * * * O * * *  *  *  *  * *
+6   * * * * * * * O * *  *  *  *  O *
+7   * * * * * * * * O *  *  *  *  * *
+8   * * * * * * * * * O  *  *  *  * *
+9   * * * * * * * * * *  *  *  *  * O
+10  * * * * * * * * * *  *  *  *  * O
+11  * * * * * * * * * *  O  *  *  * *
+12  * * * * * * * * * *  *  *  *  O *
+13  * * * * * * * * * *  *  *  *  * O
+Ψ   * * * * * * * * * *  *  *  *  * *
+
+---------------------------------------
+
+-----------MATRICE DES VALEURS----------
+
+    Α 1 2 3 4 5 6 7 8 9 10 11 12 13 Ψ 
+Α   * 2 5 * * * * * * *  *  *  *  * *
+1   * * * 4 * * * * * *  *  *  *  * *
+2   * * * * 2 * * * * *  *  *  *  * *
+3   * * * * 2 * * * * *  *  *  1  * *
+4   * * * * * 5 * * * *  *  1  *  * *
+5   * * * * * * 5 * * *  *  *  *  * *
+6   * * * * * * * 9 * *  *  *  *  9 *
+7   * * * * * * * * 2 *  *  *  *  * *
+8   * * * * * * * * * 5  *  *  *  * *
+9   * * * * * * * * * *  *  *  *  * 0
+10  * * * * * * * * * *  *  *  *  * 0
+11  * * * * * * * * * *  1  *  *  * *
+12  * * * * * * * * * *  *  *  *  9 *
+13  * * * * * * * * * *  *  *  *  * 0
+Ψ   * * * * * * * * * *  *  *  *  * *
+
+---------------------------------------
+
+
+------------------------DETECTION DE CIRCUIT---------------------
+
+Sommets supprimés à l'itération 1 : 0 -> NULL
+Sommets restants : 14
+
+Sommets supprimés à l'itération 2 : 0 -> 1 -> 2 -> NULL
+Sommets restants : 12
+
+Sommets supprimés à l'itération 3 : 0 -> 1 -> 2 -> 3 -> NULL
+Sommets restants : 11
+
+Sommets supprimés à l'itération 4 : 0 -> 1 -> 2 -> 3 -> 4 -> 12 -> NULL
+Sommets restants : 9
+
+Sommets supprimés à l'itération 5 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 11 -> 12 -> NULL
+Sommets restants : 7
+
+Sommets supprimés à l'itération 6 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 10 -> 11 -> 12 -> NULL
+Sommets restants : 5
+
+Sommets supprimés à l'itération 7 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 10 -> 11 -> 12 -> 13 -> NULL
+Sommets restants : 3
+
+Sommets supprimés à l'itération 8 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 10 -> 11 -> 12 -> 13 -> NULL
+Sommets restants : 2
+
+Sommets supprimés à l'itération 9 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13 -> NULL
+Sommets restants : 1
+
+Sommets supprimés à l'itération 10 : 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13 -> 14 -> NULL
+Sommets restants : 0
+
+--> Il n'y a pas de circuit
+
+------------------------ FIN DETECTION DE CIRCUIT---------------------
+
+--------------------------- CALCUL DES RANGS DES SOMMETS ---------------------------
+--- Points d'entrées
+0 -> NULL
+On a retire 0
+------ Itération 1-----
+Rang actuel 1
+-------------Tableeau des rangs actuel-------------
+0(1)  1(0)  2(0)  3(0)  4(0)  5(0)  6(0)  7(0)  8(0)  9(0)  10(0)  11(0)  12(0)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+1 -> 2 -> NULL
+On a retire 1
+On a retire 2
+------ Itération 2-----
+Rang actuel 2
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(0)  4(0)  5(0)  6(0)  7(0)  8(0)  9(0)  10(0)  11(0)  12(0)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+3 -> NULL
+On a retire 3
+------ Itération 3-----
+Rang actuel 3
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(0)  5(0)  6(0)  7(0)  8(0)  9(0)  10(0)  11(0)  12(0)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+4 -> 12 -> NULL
+On a retire 4
+On a retire 12
+------ Itération 4-----
+Rang actuel 4
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(0)  6(0)  7(0)  8(0)  9(0)  10(0)  11(0)  12(4)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+5 -> 11 -> NULL
+On a retire 5
+On a retire 11
+------ Itération 5-----
+Rang actuel 5
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(0)  7(0)  8(0)  9(0)  10(0)  11(5)  12(4)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+6 -> 10 -> NULL
+On a retire 6
+On a retire 10
+------ Itération 6-----
+Rang actuel 6
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(0)  8(0)  9(0)  10(6)  11(5)  12(4)  13(0)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+7 -> 13 -> NULL
+On a retire 7
+On a retire 13
+------ Itération 7-----
+Rang actuel 7
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(0)  9(0)  10(6)  11(5)  12(4)  13(7)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+8 -> NULL
+On a retire 8
+------ Itération 8-----
+Rang actuel 8
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(8)  9(0)  10(6)  11(5)  12(4)  13(7)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+9 -> NULL
+On a retire 9
+------ Itération 9-----
+Rang actuel 9
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(8)  9(9)  10(6)  11(5)  12(4)  13(7)  14(0)  
+
+
+---- Mise à jour des points d'entrées
+14 -> NULL
+On a retire 14
+------ Itération 10-----
+Rang actuel 10
+-------------Tableeau des rangs actuel-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(8)  9(9)  10(6)  11(5)  12(4)  13(7)  14(10)  
+
+
+---- Mise à jour des points d'entrées
+NULL
+
+----------------------- FIN CALCUL DES RANGS DES SOMMETS ----------------------------
+--------------- Rangs des sommets FINAL-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(8)  9(9)  10(6)  11(5)  12(4)  13(7)  14(10)  
+---------------------------------------------
+
+------------------Calcul du calendrier au plus tôt----------------------------
+La date au plus tôt d'un sommet 'i' s'obtient en déterminant le maximum des (valeurs des dates au plus tôt de ses prédecesseurs + la durée de réalisation de 'i')
+
+-> DateAuPlusTot du sommet (0) = MAX()
+DateAuPlusTot du sommet (0) = 0
+
+-> DateAuPlusTot du sommet (1) = MAX(2,)
+DateAuPlusTot du sommet (1) = 2
+
+-> DateAuPlusTot du sommet (2) = MAX(5,)
+DateAuPlusTot du sommet (2) = 5
+
+-> DateAuPlusTot du sommet (3) = MAX(6,)
+DateAuPlusTot du sommet (3) = 6
+
+-> DateAuPlusTot du sommet (4) = MAX(7,8,)
+DateAuPlusTot du sommet (4) = 8
+
+-> DateAuPlusTot du sommet (5) = MAX(13,)
+DateAuPlusTot du sommet (5) = 13
+
+-> DateAuPlusTot du sommet (6) = MAX(18,)
+DateAuPlusTot du sommet (6) = 18
+
+-> DateAuPlusTot du sommet (7) = MAX(27,)
+DateAuPlusTot du sommet (7) = 27
+
+-> DateAuPlusTot du sommet (8) = MAX(29,)
+DateAuPlusTot du sommet (8) = 29
+
+-> DateAuPlusTot du sommet (9) = MAX(34,)
+DateAuPlusTot du sommet (9) = 34
+
+-> DateAuPlusTot du sommet (10) = MAX(1,)
+DateAuPlusTot du sommet (10) = 1
+
+-> DateAuPlusTot du sommet (11) = MAX(9,)
+DateAuPlusTot du sommet (11) = 9
+
+-> DateAuPlusTot du sommet (12) = MAX(7,)
+DateAuPlusTot du sommet (12) = 7
+
+-> DateAuPlusTot du sommet (13) = MAX(27,16,)
+DateAuPlusTot du sommet (13) = 27
+
+-> DateAuPlusTot du sommet (14) = MAX(34,1,27,)
+DateAuPlusTot du sommet (14) = 34
+------------CALENDRIER AU PLUS TOT--------------
+0(0) 1(2) 2(5) 3(6) 4(8) 5(13) 6(18) 7(27) 8(29) 9(34) 10(1) 11(9) 12(7) 13(27) 14(34) 
+-----------------------------------------------
+
+------------------Calcul du calendrier au plus tard----------------------------
+
+La date au plus tard d'un sommet 'i' s'obtient en déterminant le minimum des (valeurs des dates au plus tard de ses successeurs - la durée de réalisation de chacun d'eux)
+Si la date au plus tard d'un des successeurs de 'i' n'est pas connue on la détermine d'abord en procédant comme avec 'i'
+ Le sommet Ψ fait exception et sa date au plus tard s'obtient avec sa date au plus tôt
+
+dateAuPlusTard de 0 :   A calculer
+
+dateAuPlusTard de 1 :   A calculer
+
+dateAuPlusTard de 3 :   A calculer
+
+dateAuPlusTard de 4 :   A calculer
+
+dateAuPlusTard de 5 :   A calculer
+
+dateAuPlusTard de 6 :   A calculer
+
+dateAuPlusTard de 7 :   A calculer
+
+dateAuPlusTard de 8 :   A calculer
+
+dateAuPlusTard de 9 :   A calculer
+
+dateAuPlusTard de 14 :  A calculer
+        Les datesAuplusTard des successeurs de (9) : 34 -> NULL
+        DateAuplusTard (9) = 34
+        Les datesAuplusTard des successeurs de (8) : 29 -> NULL
+        DateAuplusTard (8) = 29
+        Les datesAuplusTard des successeurs de (7) : 27 -> NULL
+        DateAuplusTard (7) = 27
+
+dateAuPlusTard de 13 :  A calculer
+        Les datesAuplusTard des successeurs de (13) : 34 -> NULL
+        DateAuplusTard (13) = 34
+        Les datesAuplusTard des successeurs de (6) : 18 -> 25 -> NULL
+        DateAuplusTard (6) = 18
+        Les datesAuplusTard des successeurs de (5) : 13 -> NULL
+        DateAuplusTard (5) = 13
+
+dateAuPlusTard de 11 :  A calculer
+
+dateAuPlusTard de 10 :  A calculer
+        Les datesAuplusTard des successeurs de (10) : 34 -> NULL
+        DateAuplusTard (10) = 34
+        Les datesAuplusTard des successeurs de (11) : 33 -> NULL
+        DateAuplusTard (11) = 33
+        Les datesAuplusTard des successeurs de (4) : 8 -> 32 -> NULL
+        DateAuplusTard (4) = 8
+
+dateAuPlusTard de 12 :  A calculer
+        Les datesAuplusTard des successeurs de (12) : 25 -> NULL
+        DateAuplusTard (12) = 25
+        Les datesAuplusTard des successeurs de (3) : 6 -> 24 -> NULL
+        DateAuplusTard (3) = 6
+        Les datesAuplusTard des successeurs de (1) : 2 -> NULL
+        DateAuplusTard (1) = 2
+
+dateAuPlusTard de 2 :   A calculer
+        Les datesAuplusTard des successeurs de (2) : 6 -> NULL
+        DateAuplusTard (2) = 6
+        Les datesAuplusTard des successeurs de (0) : 0 -> 1 -> NULL
+        DateAuplusTard (0) = 0
+------------CALENDRIER AU PLUS TARD--------------
+0(0) 1(2) 2(6) 3(6) 4(8) 5(13) 6(18) 7(27) 8(29) 9(34) 10(34) 11(33) 12(25) 13(34) 14(34) 
+-----------------------------------------------
+-----------------------MARGES------------------------
+0(0) 1(0) 2(1) 3(0) 4(0) 5(0) 6(0) 7(0) 8(0) 9(0) 10(33) 11(24) 12(18) 13(7) 14(0) 
+-----------------------------------------------------
+----------------------- Chemin critique ------------------------
+On part de 0
+on va vers 1
+on va vers 3
+on va vers 4
+on va vers 5
+on va vers 6
+on va vers 7
+on va vers 8
+on va vers 9
+on va vers 14
+Fin
+Le chemin critique est : 0 -> 1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 14 -> NULL
+----------------------- Fin Chemin critique ------------------------
+
+
+-----------------------------------------------------------------
+
+
+----------------------  RECAPITULATIF -------------------------
+--------------- Rangs des sommets FINAL-------------
+0(1)  1(2)  2(2)  3(3)  4(4)  5(5)  6(6)  7(7)  8(8)  9(9)  10(6)  11(5)  12(4)  13(7)  14(10)  
+---------------------------------------------
+
+-------------------------- Calendrier au plus tôt ------------------------------
+0(0) 1(2) 2(5) 3(6) 4(8) 5(13) 6(18) 7(27) 8(29) 9(34) 10(1) 11(9) 12(7) 13(27) 14(34) 
+------------------------------------------------------------------------------
+
+-------------------------- Calendrier au plus tard ------------------------------
+0(0) 1(2) 2(6) 3(6) 4(8) 5(13) 6(18) 7(27) 8(29) 9(34) 10(34) 11(33) 12(25) 13(34) 14(34) 
+------------------------------------------------------------------------------
+
+-------------------------- Marges ------------------------------
+0(0) 1(0) 2(1) 3(0) 4(0) 5(0) 6(0) 7(0) 8(0) 9(0) 10(33) 11(24) 12(18) 13(7) 14(0) 
+------------------------------------------------------------------------------
+
+----------------------  Chemin Critique -------------------------
+0 -> 1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 14 -> NULL

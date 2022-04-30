@@ -1,2 +1,0 @@
-test: ./test.c ./library/Graph.c ./library/Affichage.c ./library/Calendrier.c ./library/Verification.c ./library/Rangs.c ../Files/library/Fichier.c ../Files/library/File.c
-	gcc -o test ./test.c ./library/Graph.c  ../Files/library/Fichier.c ../Files/library/File.c

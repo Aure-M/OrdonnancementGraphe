@@ -28,6 +28,7 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
 {
 
     int tache;
+    int arcs = 0;
     bool isSelected;
 
     graph->matriceAdjacence = malloc((graph->nbrSommets) * sizeof(bool *));
@@ -48,6 +49,8 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
         {
             tache = defiler(tab_Duree_Et_Contraintes[i - 1]);
             graph->matriceAdjacence[tache][i] = 1;
+            printf("\t%d -> %d\n", tache, i);
+            arcs++;
         }
     }
 
@@ -65,6 +68,8 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
         if (isSelected)
         {
             graph->matriceAdjacence[0][i] = 1;
+            printf("\t%s -> %i\n", ALPHA, i);
+            arcs++;
         }
     }
 
@@ -82,8 +87,11 @@ void remplirMatAdjacence(Graph *graph, File **tab_Duree_Et_Contraintes)
         if (isSelected)
         {
             graph->matriceAdjacence[i][graph->nbrSommets - 1] = true;
+            printf("\t%d -> %s\n", i,OMEGA);
+            arcs++;
         }
     }
+    printf("\t%d arcs\n",arcs);
 }
 
 Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
@@ -98,12 +106,15 @@ Graph *initGraph(int nbrSommets, File **tab_Duree_Et_Contraintes)
         exit(EXIT_FAILURE);
     }
     graph->nbrSommets = nbrSommets + 2;
+    printf("* Création du graphe d’ordonnancement:\n");
+    printf("\t%d sommets\n", nbrSommets);
 
     remplirTabDurees(graph, tab_Duree_Et_Contraintes);
 
     remplirMatAdjacence(graph, tab_Duree_Et_Contraintes);
 
     free(tab_Duree_Et_Contraintes);
+    printf("\n* Fin de création du graphe d’ordonnancement:\n");
 
     return graph;
 }
@@ -128,10 +139,10 @@ Graph *copie(Graph *model)
     }
 
     /* Copie de la matrice d'adjacence */
-    for (int i = 0; i < nbrSommets + 2; i++)
+    for (int i = 0; i < nbrSommets; i++)
     {
         graph->matriceAdjacence[i] = malloc(nbrSommets * sizeof(bool));
-        for (int j = 0; j < nbrSommets + 2; j++)
+        for (int j = 0; j < nbrSommets; j++)
         {
             graph->matriceAdjacence[i][j] = model->matriceAdjacence[i][j];
         }

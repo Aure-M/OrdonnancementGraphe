@@ -7,14 +7,15 @@ int *rangsSommets(Graph *graph)
     File *f1 = NULL;
     Element *parcoursF1 = NULL, *parcoursF1_prec = NULL;
     int tmpNode = -1, rangActuel = 1, sommetsEffaces_len = 0;
-    int *rangs = malloc((graph->nbrSommets+2) * sizeof(int)), *sommetsEffaces = NULL;
+    int *rangs = malloc((graph->nbrSommets) * sizeof(int)), *sommetsEffaces = NULL;
     bool isF1Modified;
     /*Initialisation du tableau de rangs */
-    for (int i = 0; i < graph->nbrSommets+2; i++)
+    for (int i = 0; i < graph->nbrSommets; i++)
     {
         rangs[i] = 0;
     }
-    
+    printf("\n--------------------------- CALCUL DES RANGS DES SOMMETS ---------------------------\n");
+
     f1 = detectPointEntree(copieGraphe);
     printf("--- Points d'entrées\n");
     afficherFile(f1);
@@ -28,7 +29,7 @@ int *rangsSommets(Graph *graph)
 
             sommetsEffaces[sommetsEffaces_len - 1] = tmpNode;
 
-            for (int i = 0; i < graph->nbrSommets+2; i++)
+            for (int i = 0; i < graph->nbrSommets; i++)
             {
                 copieGraphe->matriceAdjacence[i][tmpNode] = 0;
                 copieGraphe->matriceAdjacence[tmpNode][i] = 0;
@@ -36,16 +37,16 @@ int *rangsSommets(Graph *graph)
 
             rangs[tmpNode] = rangActuel;
 
-            /* printf("On a retire %d\n", tmpNode); */
+            printf("On a retire %d\n", tmpNode);
         }
         printf("------ Itération %d-----\n", rangActuel);
         printf("Rang actuel %d\n", rangActuel);
-        for (int i = 0; i < graph->nbrSommets+2; i++)
+        printf("-------------Tableeau des rangs actuel-------------\n");
+        for (int i = 0; i < graph->nbrSommets; i++)
         {
-            printf("%d(%d)  ", i , rangs[i]);
+            printf("%d(%d)  ", i, rangs[i]);
         }
-        printf("\n");
-        printf("--------------------------------\n");
+        printf("\n\n\n");
 
         f1 = detectPointEntree(copieGraphe);
 
@@ -86,20 +87,20 @@ int *rangsSommets(Graph *graph)
         afficherFile(f1);
         rangActuel++;
     }
-
+    printf("\n----------------------- FIN CALCUL DES RANGS DES SOMMETS ----------------------------\n");
+    affichageRangsSommets(graph->nbrSommets,rangs);
     freeFile(f1);
 
     return rangs;
 }
-void affichageRangsSommets(Graph *graph)
+void affichageRangsSommets(int sommets,int *rangs)
 {
-    int *rangs = rangsSommets(graph);
-    printf("------ Rangs des sommets FINAL-----\n");
-    for (int i = 0; i < graph->nbrSommets+2; i++)
+    printf("--------------- Rangs des sommets FINAL-------------\n");
+    for (int i = 0; i < sommets; i++)
     {
         printf("%d(%d)  ", i, rangs[i]);
     }
     printf("\n");
 
-    printf("----------------------------\n");
+    printf("---------------------------------------------\n");
 }
