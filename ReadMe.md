@@ -1,10 +1,5 @@
-----------------------------------------------------------------------
-Groupe C8 :
-ALIOZA Marc-Aurel Sèwèdo
-GAHOU Hubert Junior
-Franck MEDUEGO TSAPI
-Jocelyne EMAKOUA 
-----------------------------------------------------------------------
+Ordonnancement graphe 
+
 
 1- Compilation
     Un MakeFile est mis à disposition pour créer un exécutable sous Linux
